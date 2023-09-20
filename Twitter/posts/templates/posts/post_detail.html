@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-8 mx-auto">
+        </div>
+    </div>
+</section>
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            {% if users.cover_image %}
+            <div class="col-md-6">
+            </div>
+            {% endif %}
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p class="card-title">Автор: {{ post.user }}</p>
+{% load static %}
+{% if post.user.cover_image %}
+    <img src="{{ post.user.cover_image.url }}" alt="Cover Image">
+    {% else %}
+    <img src="{% static 'img/default_profile_image.jpg' %}" alt="Girl in a jacket" width="100" height="100">
+{% endif %}
+
+                        {% if post %}
+
+                              <h5 class="card-title">Тема: {{ post.title }} </h5>
+                                <p class="card-text">Опис: {{ post.content|truncatechars:100 }}</p>
+                                <p class="card-text">Коли: {{ post.created_at }}</p>
+
+                              {% if comment_text %}
+                              <h5 class="card-title">Коментарі:</h5>
+                                  {% for comment in comment_text %}
+                                           <a href="{% url 'user_detail' comment.user.pk %}" class="list-group-item list-group-item-action">
+                                           <h5 class="card-title"></h5>
+                                           <div class="col">
+                                               <div class="card shadow-sm">
+                                                   <div class="card-body">
+
+                                                       {% load static %}
+                                                           {% if comment.user.cover_image %}
+                                                               <img src="{{ comment.user.cover_image.url }}" alt="Girl in a jacket" width="50" height="50">
+                                                               {% else %}
+                                                               <img src="{% static 'img/default_profile_image.jpg' %}" alt="Girl in a jacket" width="50" height="50">
+                                                           {% endif %}
+                                                       <h5 class="card-title">{{ comment.user }}</h5>
+                                                       <h5 class="card-title">{{ comment.comment }}</h5>
+                                                       <p class="card-text">{{ comment.created_at}}</p>
+                                                       <div class="d-flex justify-content-between align-items-center">
+
+                                                       </div>
+                                                  </div>
+                                               </div>
+                                           </div></a>
+                                  {% endfor %}
+                              {% endif %}
+
+
+                        {% endif %}
+
+                        <!-- Тут можуть бути дії, пов'язані з книгою -->
+                        <style>
+    .btn-outline-dark:hover {
+        color: lightblue !important;
+        font-weight: bold;
+    }
+</style>
+<div>
+    <a href="{% url 'add_comment' post.id %}" class="btn btn-outline-dark my-2 my-sm-0 ms-auto me-4">Коментувати</a>
+    <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
