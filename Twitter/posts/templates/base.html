@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.112.5">
-    <title>Social-network</title>
+    <title>Twitter</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
 
@@ -170,7 +170,7 @@
     <div class="container d-flex justify-content-between">
         <a href="/" class="navbar-brand d-flex align-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-            <strong>Social-network</strong>
+            <strong>Twitter</strong>
         </a>
         <div class=" d-flex align-items-center">
             {% if user.is_staff %}
@@ -178,6 +178,9 @@
             {% endif %}
             <div>
                 {% if user.is_authenticated %}
+                 <div>
+
+                <a href="{% url 'user_auth_detail' %}" class="btn btn-outline-info my-2 my-sm-0  me-2"> Моя сторінка</a>
                 <a href="{% url 'logout_view' %}" class="btn btn-outline-info my-2 my-sm-0  me-2"> Вийти</a>
                 <span class="me-3 text-white">Вітаю, {{ user.username }}</span>
                 {% else %}

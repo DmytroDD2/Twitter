@@ -21,12 +21,35 @@
     }
 </style>
 
+
+ <div>
+    <a href="{% url 'user_auth_detail' %}" class="btn btn-outline-dark my-2 my-sm-0 ms-auto me-4">Моя сторінка</a>
+    <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
 <div>
     <a href="{% url 'add_post' %}" class="btn btn-outline-dark my-2 my-sm-0 ms-auto me-4">Додати пост</a>
     <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 </div>
+
+<div>
+    <a href="{% url 'twitter_list_following' %}" class="btn btn-outline-dark my-2 my-sm-0 ms-auto me-4">Відстежуються</a>
+    <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div>
+    <a href="{% url 'twitter_list_followers' %}" class="btn btn-outline-dark my-2 my-sm-0 ms-auto me-4">Cлідкують за вами</a>
+    <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
 
 
         <div class="row">
@@ -35,7 +58,14 @@
 
                 <div class="list-group">
                     {% for user in users %}
-                        <a href="{% url 'user_detail' user.pk %}" class="list-group-item list-group-item-action">{{ user.user_name }}</a>
+                        <a href="{% url 'user_detail' user.pk %}" class="list-group-item list-group-item-action">
+                        {% load static %}
+                        {% if user.cover_image %}
+                            <img src="{{ user.cover_image.url }}" alt="Girl in a jacket" width="100" height="100">
+                            {% else %}
+                            <img src="{% static 'img/default_profile_image.jpg' %}" alt="Girl in a jacket" width="100" height="100">
+                        {% endif %}
+                        {{ user.username }} </a>
                     {% endfor %}
                 </div>
             </div>
@@ -43,7 +73,7 @@
             <div class="col-md-9">
                 <div class="col- g-3">
 
-                    {% for post in posts %}
+                    {% for post in postss %}
 
                     <div class="col">
 
@@ -61,8 +91,9 @@
 
                                 <p class="card-text">Опис: {{ post.content|truncatechars:100 }}</p>
                                 <p class="card-text">Коли: {{ post.created_at }}</p>
+
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <!-- Тут можуть бути дії, пов'язані з автором -->
+                                <p class="card-text">like: {{ post.number_of_likes }}          Кометарів: {{ post.comment_count }}</p>
                                     <div>
 
 
@@ -76,7 +107,7 @@
 
                     {% endfor %}
                                                 </div>
-                <nav aria-label="Page navigation example">
+               <nav aria-label="Page navigation example">
                   <ul class="pagination">
                     {% if page_obj.has_previous %}
                         <li class="page-item">

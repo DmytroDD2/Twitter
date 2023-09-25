@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+
+        <h1 class="fw-light">Oстанні новини</h1>
+        <p class="lead text-body-secondary">Posts</p>
+        <p>
+        </p>
+      </div>
+    </div>
+  </section>
+    <div class="album py-5 bg-light">
+    <div class="container">
+<style>
+    .btn-outline-dark:hover {
+        color: lightblue !important;
+        font-weight: bold;
+    }
+</style>
+
+<div>
+    <a href="{% url 'add_post' %}" class="btn btn-outline-dark my-2 my-sm-0 ms-auto me-4">Додати пост</a>
+    <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div>
+    <a href="{% url 'twitter_list_following' %}" class="btn btn-outline-dark my-2 my-sm-0 ms-auto me-4">Відстежуються</a>
+    <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <h1>Відстежуються</h1>
+
+                <div class="list-group">
+                    {% for user in followers %}
+                        <a href="{% url 'user_detail' user.pk %}" class="list-group-item list-group-item-action">
+                        {% load static %}
+                        {% if user.cover_image %}
+                            <img src="{{ user.cover_image.url }}" alt="Girl in a jacket" width="100" height="100">
+                            {% else %}
+                            <img src="{% static 'img/default_profile_image.jpg' %}" alt="Girl in a jacket" width="100" height="100">
+                        {% endif %}
+                        {{ user.username }} </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="col- g-3">
+
+                    {% for post in posts %}
+
+                    <div class="col">
+
+                        <a href="{% url 'post_detail' post.pk %}" style="text-decoration: none; color: #000;">
+                        <div class="card shadow-sm">
+                            {% load static %}
+                                {% if post.user.cover_image %}
+                                    <img src="{{ post.user.cover_image.url }}" alt="Girl in a jacket" width="50" height="50">
+                                    {% else %}
+                                    <img src="{% static 'img/default_profile_image.jpg' %}" alt="Girl in a jacket" width="50" height="50">
+                                {% endif %}
+                            <div class="card-body">
+                                <p class="card-text">{{ post.user }}</p>
+                                <h5 class="card-title">Тема: {{ post.title }} </h5>
+
+                                <p class="card-text">Опис: {{ post.content|truncatechars:100 }}</p>
+                                <p class="card-text">Коли: {{ post.created_at }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+
+                                    <div>
+
+
+        <span class="navbar-toggler-icon"></span>
+
+</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                                                </div>
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+                        </li>
+                    {% endif %}
+
+                    {% for i in page_obj.paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
+                        </li>
+                    {% endif %}
+                  </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

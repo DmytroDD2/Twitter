@@ -16,7 +16,7 @@
     <div class="col-md-7 col-lg-8 mx-auto">
 
                 <h4 class="mb-3">Ваші дані</h4>
-                <form method="post">
+                <form method="post" action="{% url 'add_comment' post_id %}">
                     {% csrf_token %}
                     {{ form.as_p }}
     <button class="btn btn-outline-dark my-2 my-sm-0 ms-auto me-4">Додати коментар</button>

@@ -15,9 +15,10 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['comment_text']
-    #     widgets = {
-    #         'post_id_hidden': forms.HiddenInput()
-    #     }
-    # # post_id = forms.IntegerField(widget=forms.HiddenInput(attrs={'required': False}))
-
-    post_id_hidden = forms.IntegerField(widget=forms.HiddenInput(),)
+        widgets = {
+            'post_id_hidden': forms.MultipleHiddenInput()
+        }
+    # post_id = forms.IntegerField(widget=forms.HiddenInput(attrs={'required': False}))
+    #
+    # post_id_hidden = forms.IntegerField(widget=forms.HiddenInput())
+    #

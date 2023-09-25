@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+    </div>
+</section>
+<div class="album py-5 bg-light">
+    <div class="container">
+
+{% load static %}
+
+{% if user.cover_image %}
+    <img src="{{ user.cover_image.url }}" alt="Cover Image">
+    {% else %}
+    <img src="{% static 'img/default_profile_image.jpg' %}" alt="Default Profile Image">
+{% endif %}
+
+
+
+
+        <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text">Автор: {{ user.username }}</p>
+                        <p class="card-text">Email: {{ user.email }}</p>
+
+<style>
+    .btn-outline-dark:hover {
+        color: lightblue !important;
+        font-weight: bold;
+    }
+</style>
+
+<div>
+    <a href="{% url 'update_user' %}" class="btn btn-outline-dark my-2 my-sm-0 ms-auto me-4" >Редагувати</a>
+    <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+
+
+
+                        {% if posts %}
+                              {% for post in posts %}
+
+
+
+
+
+
+                                    <div class="col">
+                                        <a href="{% url 'post_detail' post.pk %}" style="text-decoration: none; color: #000;">
+                                        <div class="card shadow-sm">
+
+                                            <div class="card-body">
+                                                <h4 class="card-title">Тема: {{ post.title}}</h4>
+                                                <h5 class="card-title">Опис: {{ post.content}}</h5>
+                                                <h6 class="card-title">{{ post.created_at}}</h6>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                <p class="card-text">like: {{ post.number_of_likes }}          Кометарів: {{ post.comment_count }}</p>
+
+
+                                    <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+<style>
+    .btn-outline-dark:hover {
+        color: lightblue !important;
+        font-weight: bold;
+    }
+</style>
+
+<div>
+    <a href="{% url 'delete_post' post.pk %}" class="btn btn-outline-dark my-2 my-sm-0 ms-auto me-4" data-post-id="{{ post.id }}">Видалити</a>
+    <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+                              {% endfor %}
+
+                        {% endif %}
+
+                        <p class="card-text">
+                        </p>
+                        <!-- Тут можуть бути дії, пов'язані з книгою -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

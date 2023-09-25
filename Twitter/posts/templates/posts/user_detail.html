@@ -10,16 +10,32 @@
 
 {% load static %}
 
-{% if userr.cover_image %}
-    <img src="{{ userr.cover_image.url }}" alt="Cover Image">
+{% if user.cover_image %}
+    <img src="{{ user.cover_image.url }}" alt="Cover Image">
     {% else %}
     <img src="{% static 'img/default_profile_image.jpg' %}" alt="Default Profile Image">
 {% endif %}
 
         <div class="card shadow-sm">
                     <div class="card-body">
-                        <p class="card-text">Автор: {{ userr.user_name }}</p>
-                        <p class="card-text">Email: {{ userr.email }}</p>
+                        <p class="card-text">Автор: {{ user.username }}</p>
+                        <p class="card-text">Email: {{ user.email }}</p>
+                        {% if user.is_authenticated %}
+                                  <form action="{% url 'user_followers' user.id %}" method="POST">
+                                    {% csrf_token %}
+
+                                    {% if users_is_followers %}
+                                       <button type="submit" name="pk" value="{{user.id}}" class="btn btn-danger"> Не стежити </button>
+
+                                    {% else %}
+
+                                       <button type="submit" name="pk" value="{{user.id}}" class="btn btn-info btn-like">Стежити</button>
+                                    {% endif %}
+                                  </form>
+                                {% else %}
+                                  <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Log in to like this article!</a><br>
+                                {% endif %}
+
                         {% if posts %}
                               {% for post in posts %}
                                     <div class="col">

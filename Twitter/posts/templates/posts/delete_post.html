@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+    </div>
+</section>
+<div class="album py-5 bg-light">
+    <div class="container">
+
+{% load static %}
+
+{% if user.cover_image %}
+    <img src="{{ user.cover_image.url }}" alt="Cover Image">
+    {% else %}
+    <img src="{% static 'img/default_profile_image.jpg' %}" alt="Default Profile Image">
+{% endif %}
+
+<h4 class="card-title">Тема: {{ post.title}}</h4>
+        <h5 class="card-title">Опис: {{ post.content}}</h5>
+                        <p class="card-text">
+                        </p>
+<form method="post">{% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Підтвердити видалення">
+</form>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

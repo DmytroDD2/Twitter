@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.urls import reverse
 
 class User(AbstractUser):
     cover_image = models.ImageField(upload_to="user_auth/covers", null=True, blank=True)
@@ -15,3 +15,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.username}'
+
+    def get_absolute_url(self):
+        return reverse('user_auth_detail')
