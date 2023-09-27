@@ -10,9 +10,8 @@ class TwitterListView(ListView):
     context_object_name = 'postss'
     paginate_by = 6
     def get_queryset(self):
-        queryset = super().get_queryset().select_related("user",).annotate(comment_count=Count('comment'))
+        queryset = super().get_queryset().select_related("user").prefetch_related("comment_set").annotate(comment_count=Count('comment'), like_count=Count('likes'))
         return queryset
-
 
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -89,9 +88,12 @@ class PostDetailView(DetailView):
     template_name = 'posts/post_detail.html'
     context_object_name = "post"
 
+
+    def get_queryset(self):
+        queryset = super().get_queryset().select_related('user')
+        return queryset
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         likes_connected = get_object_or_404(Post, id=self.kwargs['pk'])
         liked = False
         if likes_connected.likes.filter(id=self.request.user.id).exists():
@@ -100,7 +102,7 @@ class PostDetailView(DetailView):
         context['post_is_liked'] = liked
 
         context["users"] = User.objects.filter(pk=self.object.pk)
-        context["comment_text"] = Comment.objects.filter(post_id_hidden=self.object)
+        context["comment_text"] = Comment.objects.filter(post_id_hidden=self.object).select_related("user")
         context['number_of_comments'] = self.object.comment_set.count()
         return context
 
